@@ -20,7 +20,7 @@ For example
 
 ```bash
 cd plugins
-git clone https://github.com/Cohee1207/SillyTavern-YouTube-Player
+git clone https://github.com/Cohee1207/SillyTavern-YouTube-Videos-Server
 ```
 
 3. Restart the SillyTavern server. The yt-dlp binary will be automatically downloaded from GitHub when you start the first video.
