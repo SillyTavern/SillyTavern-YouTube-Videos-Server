@@ -1,5 +1,7 @@
 # SillyTavern YouTube Player
 
+**Also check out a companion UI extension! [SillyTavern-YouTube-Videos-UI](https://github.com/Cohee1207/SillyTavern-YouTube-Videos-UI)**
+
 Server plugin to extract a direct URL to a YouTube video using the [yt-dlp](https://github.com/yt-dlp/yt-dlp) library.
 
 ## How to use
