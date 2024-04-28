@@ -6,6 +6,11 @@ Server plugin to extract a direct URL to a YouTube video using the [yt-dlp](http
 
 ## How to use
 
+> [!TIP]
+> Both endpoints also support providing the URL as a query parameter.
+
+### Video URL
+
 Send a message containing a video element with the source URL pre-wrapped with `/api/plugins/youtube/play/`.
 
 For example
@@ -13,6 +18,26 @@ For example
 ```html
 <video src="/api/plugins/youtube/play/https://youtu.be/zFfL0y3zyfc" autoplay controls></video>
 ```
+
+### Video info
+
+Query the `GET /api/plugins/youtube/info/` endpoint to fetch the video info.
+
+```ts
+interface VideoInfo {
+    id: string;
+    title: string;
+    url: string;
+    thumbnail: string;
+    duration: number;
+    description: string;
+    uploader: string;
+    view_count: number;
+    upload_date: string;
+}
+```
+
+Example: `GET /api/plugins/youtube/info/https://youtu.be/zFfL0y3zyfc`.
 
 ## How to install
 
