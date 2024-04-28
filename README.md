@@ -1,6 +1,6 @@
 # SillyTavern YouTube Player
 
-**Also check out a companion UI extension! [SillyTavern-YouTube-Videos-UI](https://github.com/Cohee1207/SillyTavern-YouTube-Videos-UI)**
+**Also check out a companion UI extension! [SillyTavern-YouTube-Videos-UI](https://github.com/SillyTavern/SillyTavern-YouTube-Videos-UI)**
 
 Server plugin to extract a direct URL to a YouTube video using the [yt-dlp](https://github.com/yt-dlp/yt-dlp) library.
 
@@ -22,7 +22,7 @@ For example
 
 ```bash
 cd plugins
-git clone https://github.com/Cohee1207/SillyTavern-YouTube-Videos-Server
+git clone https://github.com/SillyTavern/SillyTavern-YouTube-Videos-Server
 ```
 
 3. Restart the SillyTavern server. The yt-dlp binary will be automatically downloaded from GitHub when you start the first video.
