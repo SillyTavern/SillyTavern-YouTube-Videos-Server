@@ -64,19 +64,19 @@ async function getYoutubeVideoUrl(url: string): Promise<string> {
 
 async function getVideoInfo(url: string): Promise<VideoInfo> {
     const videoId = getYouTubeId(url);
-	
+
     // Use videoId as cache key when available, otherwise fall back to URL
     const cacheKey = videoId || url;
 
     // Check cache first
-	if (INFO_CACHE.has(cacheKey)) {
-		const cachedInfo = INFO_CACHE.get(cacheKey);
-		if (cachedInfo && cachedInfo.cached_at && Date.now() - cachedInfo.cached_at < CACHE_DURATION) {
-			console.log(chalk.green(MODULE_NAME), 'Using cached info for:', cacheKey);
-			return cachedInfo;
-		}
-	}
-	
+    if (INFO_CACHE.has(cacheKey)) {
+        const cachedInfo = INFO_CACHE.get(cacheKey);
+        if (cachedInfo && cachedInfo.cached_at && Date.now() - cachedInfo.cached_at < CACHE_DURATION) {
+            console.log(chalk.green(MODULE_NAME), 'Using cached info for:', cacheKey);
+            return cachedInfo;
+        }
+    }
+
     // Check if we already have a pending request for this URL
     if (PENDING_REQUESTS.has(cacheKey)) {
         console.log(chalk.yellow(MODULE_NAME), 'Info request already in progress for:', url);
@@ -99,8 +99,8 @@ async function getVideoInfo(url: string): Promise<VideoInfo> {
             }
             const ytDlpWrap = new YTDlpWrap(filePath);
             const videoInfo = await ytDlpWrap.getVideoInfo(url);
-			const cachedVideoInfo = { ...videoInfo, cached_at: Date.now() };
-			INFO_CACHE.set(cacheKey, cachedVideoInfo);
+            const cachedVideoInfo = { ...videoInfo, cached_at: Date.now() };
+            INFO_CACHE.set(cacheKey, cachedVideoInfo);
             return videoInfo;
         } finally {
             // Clean up the pending request after completion
