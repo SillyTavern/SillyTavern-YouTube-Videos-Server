@@ -1,9 +1,9 @@
 import { Router } from 'express';
 import { Chalk } from 'chalk';
 import YTDlpWrap from 'yt-dlp-wrap';
-import * as os from 'os';
-import * as path from 'path';
-import * as fs from 'fs';
+import * as os from 'node:os';
+import * as path from 'node:path';
+import * as fs from 'node:fs';
 
 interface PluginInfo {
     id: string;
@@ -42,8 +42,8 @@ const CACHE_DURATION = 9 * 60 * 1000;  // 9 minutes in milliseconds (YouTube's u
  * @returns YouTube video ID or null
  */
 function getYouTubeId(url: string): string | null {
-    let regex = /(http:\/\/|https:\/\/)?(youtu.*be.*)\/(watch\?v=|embed\/|v|shorts|)(.*?((?=[&#?])|$))/gm;
-    let match = regex.exec(url);
+    const regex = /(http:\/\/|https:\/\/)?(youtu.*be.*)\/(watch\?v=|embed\/|v|shorts|)(.*?((?=[&#?])|$))/gm;
+    const match = regex.exec(url);
     if (match) {
         return match[4];
     }
