@@ -35,6 +35,7 @@ const MODULE_NAME = '[SillyTavern-YouTube-Videos-Server]';
 const INFO_CACHE = new Map<string, VideoInfo>();
 const PENDING_REQUESTS = new Map<string, Promise<VideoInfo>>();
 const CACHE_DURATION = 9 * 60 * 1000;  // 9 minutes in milliseconds (YouTube's usual duration is 10, better safe than sorry)
+const UPDATE_INTERVAL = 30 * 24 * 60 * 60 * 1000; // 30 days in milliseconds
 
 /**
  * Get the YouTube video ID from a YouTube URL.
@@ -60,6 +61,21 @@ async function getYoutubeVideoUrl(url: string): Promise<string> {
 
     console.log(chalk.green(MODULE_NAME), 'Video URL:', videoUrl);
     return videoUrl;
+}
+
+async function getBinaryPath(): Promise<string> {
+    const fileName = 'yt-dlp' + (os.platform() === 'win32' ? '.exe' : '');
+    const filePath = path.join(__dirname, fileName);
+    const lastUpdateThreshold = Date.now() - UPDATE_INTERVAL;
+    if (fs.existsSync(filePath) && fs.statSync(filePath).mtimeMs < lastUpdateThreshold) {
+        console.log(chalk.yellow(MODULE_NAME), 'yt-dlp binary is outdated, re-downloading');
+        await fs.promises.unlink(filePath);
+    }
+    if (!fs.existsSync(filePath)) {
+        console.log(chalk.green(MODULE_NAME), 'Downloading yt-dlp');
+        await YTDlpWrap.downloadFromGithub(filePath);
+    }
+    return filePath;
 }
 
 async function getVideoInfo(url: string): Promise<VideoInfo> {
@@ -91,12 +107,7 @@ async function getVideoInfo(url: string): Promise<VideoInfo> {
     const promise = (async () => {
         try {
             console.log(chalk.green(MODULE_NAME), 'Getting YouTube video:', cacheKey);
-            const fileName = 'yt-dlp' + (os.platform() === 'win32' ? '.exe' : '');
-            const filePath = path.join(__dirname, fileName);
-            if (!fs.existsSync(filePath)) {
-                console.log(chalk.green(MODULE_NAME), 'Downloading yt-dlp');
-                await YTDlpWrap.downloadFromGithub(filePath);
-            }
+            const filePath = await getBinaryPath();
             const ytDlpWrap = new YTDlpWrap(filePath);
             const videoInfo = await ytDlpWrap.getVideoInfo(url);
             const cachedVideoInfo = { ...videoInfo, cached_at: Date.now() };
