@@ -51,7 +51,12 @@ function getYouTubeId(url: string): string | null {
     return null;
 }
 
-async function getYoutubeVideoUrl(url: string): Promise<string> {
+/**
+ * Get the direct video URL from a YouTube video URL.
+ * @param url YouTube video URL
+ * @returns Promise that resolves to the direct video URL
+ */
+async function getYouTubeVideoUrl(url: string): Promise<string> {
     const videoInfo = await getVideoInfo(url);
     const videoUrl = videoInfo?.url;
 
@@ -63,6 +68,10 @@ async function getYoutubeVideoUrl(url: string): Promise<string> {
     return videoUrl;
 }
 
+/**
+ * Get the path to the yt-dlp binary, downloading it if necessary.
+ * @returns Path to the yt-dlp binary.
+ */
 async function getBinaryPath(): Promise<string> {
     const fileName = 'yt-dlp' + (os.platform() === 'win32' ? '.exe' : '');
     const filePath = path.join(__dirname, fileName);
@@ -78,6 +87,11 @@ async function getBinaryPath(): Promise<string> {
     return filePath;
 }
 
+/**
+ * Get video information from a YouTube video URL.
+ * @param url YouTube video URL
+ * @returns Promise that resolves to video information
+ */
 async function getVideoInfo(url: string): Promise<VideoInfo> {
     const videoId = getYouTubeId(url);
 
@@ -139,7 +153,7 @@ export async function init(router: Router): Promise<void> {
                 return res.status(400).send('Bad Request');
             }
             const url = (req.params.url || req.query.url) as string;
-            const videoUrl = await getYoutubeVideoUrl(url);
+            const videoUrl = await getYouTubeVideoUrl(url);
             return res.location(videoUrl).sendStatus(302);
         } catch (error) {
             console.error(chalk.red(MODULE_NAME), 'Download failed', error);
@@ -163,7 +177,14 @@ export async function init(router: Router): Promise<void> {
     console.log(chalk.green(MODULE_NAME), 'Plugin loaded!');
 }
 
+/**
+ * Exit the plugin, cleaning up resources.
+ */
 export async function exit(): Promise<void> {
+    // Clean up any pending requests
+    PENDING_REQUESTS.clear();
+    INFO_CACHE.clear();
+
     console.log(chalk.yellow(MODULE_NAME), 'Plugin exited');
 }
 
