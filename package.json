@@ -33,7 +33,7 @@
         "webpack-cli": "^5.1.4"
     },
     "dependencies": {
-        "body-parser": "^1.20.2",
+        "body-parser": "^1.20.4",
         "chalk": "^5.3.0",
         "yt-dlp-wrap": "^2.3.12"
     }
