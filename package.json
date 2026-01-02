@@ -12,14 +12,14 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/SillyTavern/SillyTavern-Office-Parser.git"
+        "url": "git+https://github.com/SillyTavern/SillyTavern-YouTube-Videos-Server.git"
     },
     "author": "Cohee1207",
     "license": "AGPL-3.0-or-later",
     "bugs": {
-        "url": "https://github.com/SillyTavern/SillyTavern-Office-Parser/issues"
+        "url": "https://github.com/SillyTavern/SillyTavern-YouTube-Videos-Server/issues"
     },
-    "homepage": "https://github.com/SillyTavern/SillyTavern-Office-Parser#readme",
+    "homepage": "https://github.com/SillyTavern/SillyTavern-YouTube-Videos-Server#readme",
     "devDependencies": {
         "@eslint/js": "^9.0.0",
         "@types/express": "^4.17.21",
